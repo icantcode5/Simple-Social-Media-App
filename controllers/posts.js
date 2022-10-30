@@ -17,13 +17,16 @@ module.exports = {
       res.render("feed.ejs", { posts: posts });
     } catch (err) {
       console.log(err);
-    }
+    } 
   },
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
-      const comments = await Comment.find({createdBy : req.params.id}).sort({ createdAt: "desc" }).lean();
-      res.render("post.ejs", { post: post, user: req.user, comments:comments });
+      const comments = await Comment.find({postId : req.params.id}).sort({ createdAt: "desc" }).lean();
+      const commentId = await Comment.find({_id: req.params.commentId})
+      res.render("post.ejs", { post: post, user: req.user, comments:comments, commentId : commentId});
+      //whatever we pass in to the second argument of an object of "res.render," is the objects we can use in our ejs file as interpolation. From the code above, in our ejs file we will be able to access a "post" property that holds the "post" object with values from the "const post." We also found all the comments in our database with the postId of "req.params.id", which are returned in an array, so we can now include an them in the property of "comments" which we named and gave it the value of "const comments" (I think the comments documents are returned as an array by default if there is more than 1???)
+      //console.log(req.params.id)
     } catch (err) {
       console.log(err);
     }
