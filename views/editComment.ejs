@@ -1,0 +1,37 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <ul>
+      <!-- This is where the comment being edited it being rendered -->
+      <h2>Edit Comment</h2>
+      <div class="mb-3">
+        <!-- name in the input tag above lets us grab the comment text and we can grab it out of the body : req.body.comment -->
+     
+    </div>
+      <!-- ALWAYS MAKE SURE WE ARE ACCURATELY GETTING THE CORRECT PARAMS IN THE URL -->
+      <!-- Here we are only looking at 1 comment so we know the document(obj) in the array lies in the 0 index -->
+              <form action="/comment/editComment/<%= post._id %>/<%= comments[0]._id %>?_method=PUT" method="POST">
+                <textarea name="editedComment" class="textArea" cols="30" rows="10"><%= comments[0].comment %></textarea>
+                <button class="btn btn-primary fa fa-check" type="submit">Submit</button>
+              </form>
+    </ul>
+    <div class="col-6">
+      <h2><%= post.title %></h2>
+      <img class="img-fluid" src="<%= post.image%>" />
+      <div class="row justify-content-between">
+        <h3 class="col-3">Likes: <%= post.likes %></h3>
+      </div>
+    </div>
+      <!-- This is where we can show the caption and add comments -->
+    <div class="col-3 mt-5">
+      <p><%= post.caption %></p>
+    </div>
+
+    <div class="col-6 mt-5">
+      <a class="btn btn-primary" href="/profile">Return to Profile</a>
+      <a class="btn btn-primary" href="/feed">Return to Feed</a>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') -%>

@@ -1,6 +1,7 @@
 <%- include('partials/header') -%>
 <div class="container">
   <div class="row justify-content-center mt-5">
+    <!-- this is where we are redering the post we are looking at with the title, picture, comments, etc and where we can like a post -->
     <div class="col-6">
       <h2><%= post.title %></h2>
       <img class="img-fluid" src="<%= post.image%>" />
@@ -13,7 +14,7 @@
           <button class="btn btn-primary fa fa-heart" type="submit"></button>
         </form>
         <h3 class="col-3">Likes: <%= post.likes %></h3>
-
+        <!-- This is where the we can delete the post if it belongs to the logged in user -->
         <%if(post.user == user.id){ %>
         <form
           action="/post/deletePost/<%= post.id %>?_method=DELETE"
@@ -25,6 +26,7 @@
         <%}%>
       </div>
     </div>
+      <!-- This is where we can show the caption and add comments -->
     <div class="col-3 mt-5">
       <p><%= post.caption %></p>
     </div>
@@ -37,25 +39,23 @@
         </div>
         <button type="submit" class="bt">Submit Comment</button>
       </form>
+
     <ul>
-      <!-- this is where I am working on deleting comments if the original user is looking at his/her post. -->
+      <!-- this is where I am working on deleting/edit comment routing if the original user is looking at his/her comment. -->
       <% for(var i=0; i<comments.length; i++) {%>
         <li class="col-6 justify-content-between mt-5">
             <%= comments[i].comment %>
             <%if(comments[i].userComment == user.id){ %>
-              <form action="/comment/deleteComment/<%= post._id %>/<%= comments[i]._id %> ?_method=DELETE" method="POST" class="col-3">
+              <form action="/comment/deleteComment/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST" class="col-3">
                 <button class="btn btn-primary fa fa-trash" type="submit">Delete</button>
               </form>
-              <%}%>
+              <form action="/comment/editComment/<%= post._id %>/<%= comments[i]._id %>?_method=GET" method="POST">
+                <button class="btn btn-primary fa fa-check">Edit</button>
+              </form>
+            <%}%>
         </li> 
       <% } %>
     </ul>
-
-    <!-- <%if(post.user == user.id){ %>
-      <form action="/comment/deleteComment/<%= post.id %>?_method=DELETE" method="POST" class="col-3">
-        <button class="btn btn-primary fa fa-trash" type="submit"></button>
-      </form>
-      <%}%> -->
 
     <div class="col-6 mt-5">
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
